@@ -28,7 +28,7 @@ public class enemyspawner : MonoBehaviour
         PLpos = Player.transform.position;
        
         
-        if (Vector2.Distance(pos, PLpos) < 1)
+        if (Vector2.Distance(pos, PLpos) < 5)
         {
             Debug.Log("A");
             Instantiate(Enemy, pos,transform.rotation);
