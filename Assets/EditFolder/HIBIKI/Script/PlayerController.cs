@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("プレイヤーのステータス")]
     [SerializeField] float _moveSpeed;
+    [Space]
     [SerializeField] float _jumpPower;
     [SerializeField] int _jumpLimit;
     int jumpCount;
