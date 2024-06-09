@@ -12,12 +12,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] SpriteRenderer PlayerRenderer;
 
     [Header("プレイヤーのステータス")]
-    [SerializeField] float _moveSpeed = 5;
+    [SerializeField,Tooltip("並行の移動スピード")]
+    float _moveSpeed = 5;
     [Space]
-    [SerializeField] float _jumpPower = 5;
-    [SerializeField] int _jumpLimit = 1;
+    [SerializeField, Tooltip("ジャンプ力")]
+    float _jumpPower = 5;
+    [SerializeField, Tooltip("ジャンプ回数")]
+    int _jumpLimit = 1;
     [Space]
-    [SerializeField] float _wallclimbSpeed = 3;
+    [SerializeField, Tooltip("壁登り速度")]
+    float _wallclimbSpeed = 3;
+
     int jumpCount;
     float ScaleX;
     float Angle;
@@ -97,27 +102,12 @@ public class PlayerController : MonoBehaviour
                 Debug.Log($"タイルが見つからない\n座標：{cellPosition}\n法線方向：{CollisionNormal}\n\n{hitPosition}と{new Vector3Int((int)Mathf.Sign(CollisionNormal.x) * -1, (int)Mathf.Sign(CollisionNormal.y) * -1, 0)}");
             }
 
-            //壁登り
+            //
             if ((Mathf.Abs(CollisionNormal.x) >= 0.01 ? (int)Mathf.Sign(CollisionNormal.x) * -1 : 0) == Input.GetAxisRaw("Horizontal") && Input.GetAxisRaw("Horizontal") != 0)
             {
-                Debug.Log("壁登り");
-                if (!WallRunning)
-                {
-                    WallRunning = true;
-                    playerMode = PlayerMode.WallRun;
-                    PlayerRenderer.sprite = WallRunSprite;
-                }
-
-                PlayerRB.velocity = new Vector2(0, _wallclimbSpeed);
+                WallRun();
             }
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            if (WallRunning)
+            else if (WallRunning)
             {
                 Debug.Log("壁登り解除");
 
@@ -126,6 +116,31 @@ public class PlayerController : MonoBehaviour
                 PlayerRenderer.sprite = NormalSprite;
             }
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            Debug.Log("壁登り解除");
+
+            WallRunning = false;
+            playerMode = PlayerMode.Normal;
+            PlayerRenderer.sprite = NormalSprite;
+        }
+    }
+
+    private void WallRun()
+    {
+        Debug.Log("壁登り");
+        if (!WallRunning)
+        {
+            WallRunning = true;
+            playerMode = PlayerMode.WallRun;
+            PlayerRenderer.sprite = WallRunSprite;
+        }
+
+        PlayerRB.velocity = new Vector2(0, _wallclimbSpeed);
     }
 
     private IEnumerator Attack()
@@ -185,4 +200,5 @@ public class PlayerController : MonoBehaviour
             bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(_bulletSpeed * Angle, 0);
         }
     }
+
 }
