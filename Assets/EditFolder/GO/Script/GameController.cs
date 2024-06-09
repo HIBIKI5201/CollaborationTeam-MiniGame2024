@@ -17,7 +17,11 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Return) && titleCanvas.active)
+        {
+            StageSelectUiActive();
+            Debug.Log("aa");
+        }
     }
 
     public void StageSelectUiActive()
