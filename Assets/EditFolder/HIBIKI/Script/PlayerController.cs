@@ -23,12 +23,17 @@ public class PlayerController : MonoBehaviour
     float Angle;
 
     [Header("攻撃ステータス")]
-    [SerializeField] BoxCollider2D AttackCollider;
-    [SerializeField] float _attackDamage;
+    [SerializeField,Tooltip("攻撃判定のコライダー")]
+    BoxCollider2D AttackCollider;
+    [SerializeField,Tooltip("近接攻撃力")]
+    float _attackDamage;
     [Space]
-    [SerializeField] GameObject Bullet;
-    [SerializeField] float _bulletDamage;
-    [SerializeField] float _bulletSpeed;
+    [SerializeField,Tooltip("肉球弾丸のオブジェクト")]
+    GameObject Bullet;
+    [SerializeField,Tooltip("弾丸の攻撃力")]
+    float _bulletDamage;
+    [SerializeField,Tooltip("弾丸のスピード")]
+    float _bulletSpeed;
 
     [Header("プレイヤーのモード")]
     [SerializeField] PlayerMode playerMode;
