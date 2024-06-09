@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -40,6 +41,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField,Tooltip("弾丸のスピード")]
     float _bulletSpeed;
 
+    [Header("体力ステータス")]
+    [SerializeField,Tooltip("体力")]
+    float _maxHealth;
+    [HideInInspector,Tooltip("現在体力")]
+    public float _currentHealth;
+    [SerializeField, Tooltip("無敵時間")]
+    float _hitIntarval;
+    float _hitIntervalTimer;
+
     [Header("プレイヤーのモード")]
     [SerializeField] PlayerMode playerMode;
     public enum PlayerMode
@@ -58,7 +68,20 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        _currentHealth = _maxHealth;
         ScaleX = transform.localScale.x;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.CompareTag("Enemy") && _hitIntervalTimer + _hitIntarval < Time.time)
+        {
+            _hitIntervalTimer = Time.time;
+            _currentHealth--;
+            Debug.Log($"現在体力は{_currentHealth}");
+            Debug.Log($"{_hitIntervalTimer + _hitIntarval}と{Time.time}");
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -120,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && WallRunning)
         {
             Debug.Log("壁登り解除");
 
