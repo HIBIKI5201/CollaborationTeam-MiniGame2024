@@ -53,15 +53,15 @@ public class EnemyMove : MonoBehaviour
                     StartCoroutine(weit(2));
                 }
                 //ｘ方向の加速度が設定した速度よりも遅かった場合？
-                //if (Mathf.Abs(rb.velocity.x) < _moveSpeed)
-                //{
-                //    //速度を直接代入
-                //    rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
-                //}
+                if (Mathf.Abs(rb.velocity.x) < _moveSpeed)
+                {
+                    //速度を直接代入
+                    rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
+                }
             }
             else
             {
-                
+
                 rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
             }
         }
@@ -91,11 +91,11 @@ public class EnemyMove : MonoBehaviour
 
             case 2:
                 //プレイヤーのいる方向に突進
-                
+
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 yield return new WaitForSeconds(1);
-                rb.AddForce(_axis * new Vector2(_moveSpeed,0)*2, ForceMode2D.Impulse);
-                
+                rb.velocity = new Vector2(_axis * _moveSpeed * 3, 0);
+
                 break;
         }
 
