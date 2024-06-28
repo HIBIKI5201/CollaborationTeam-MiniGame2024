@@ -16048,6 +16048,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4741470765192829272, guid: 323d5783cb9fae34db4c3ef6ba355047, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6814899170113680423, guid: 323d5783cb9fae34db4c3ef6ba355047, type: 3}
       propertyPath: m_Name
       value: "\u67F5 (1)"
