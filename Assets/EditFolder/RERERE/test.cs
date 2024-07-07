@@ -16,6 +16,6 @@ public class test : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //HPBar.fillAmount = _hp / _maxHP;//HPbar‚ğHP/MaxHP‚É‘å‚«‚³‚ğ•ÏX
     }
 }

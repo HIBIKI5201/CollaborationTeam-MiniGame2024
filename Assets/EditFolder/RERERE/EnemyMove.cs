@@ -33,7 +33,7 @@ public class EnemyMove : MonoBehaviour
         _plPos = PL.transform.position;
         _pos = transform.position;
         _axis = Mathf.Sign(_plPos.x - _pos.x);
-        Debug.Log(rb.velocity.x);
+        //Debug.Log(rb.velocity.x);
         _cooltime -= Time.deltaTime;
 
         //自分の向いている方向にプレイヤーがいるならば
@@ -47,39 +47,43 @@ public class EnemyMove : MonoBehaviour
                 //ダッシュ中も一定速度でPLに向かうようにしたい
                 //ダッシュ直前に一旦停止
                 //クールタイムが０以下の時２を実行
-                if (_cooltime < 0)
-                {
-
+                //範囲内に入ったら飛び掛かってくるクールタイム削除飛び掛かる前に一旦停止
+                
                     StartCoroutine(weit(2));
-                }
+               
                 //ｘ方向の加速度が設定した速度よりも遅かった場合？
-                //if (Mathf.Abs(rb.velocity.x) < _moveSpeed)
-                //{
-                //    //速度を直接代入
-                //    rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
-                //}
+               //else if (Mathf.Abs(rb.velocity.x) < _moveSpeed)
+               // {
+               //     //速度を直接代入
+               //     rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
+               // }
             }
             else
             {
-                
                 rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
             }
+
+            
         }
         //向いている方向にプレイヤーがいない場合かつ速度が一定以下の場合
-        else if (Mathf.Abs(rb.velocity.x) <= _moveSpeed)
+        else if (Mathf.Abs(rb.velocity.x) < _moveSpeed)
         {
             //weit(1)を実行
             StartCoroutine(weit(1));
+        }
+        if (Vector2.Distance(_pos, _plPos) > 15)
+        {
+            rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
         }
 
 
     }
     IEnumerator weit(int num)
     {
-        _cooltime = _CT;
+        
         //X軸の速度を０にする。
         //rb.velocity = new Vector2(0, rb.velocity.y);
-        yield return new WaitForSeconds(1);
+        
 
         switch (num)
         {
@@ -91,11 +95,11 @@ public class EnemyMove : MonoBehaviour
 
             case 2:
                 //プレイヤーのいる方向に突進
-                
+                float axis = _axis;
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 yield return new WaitForSeconds(1);
-                rb.AddForce(_axis * new Vector2(_moveSpeed,0)*2, ForceMode2D.Impulse);
-                
+                rb.velocity = new Vector2(axis * _moveSpeed * 3, 0);
+
                 break;
         }
 
