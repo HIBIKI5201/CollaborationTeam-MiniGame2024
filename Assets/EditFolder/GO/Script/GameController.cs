@@ -31,6 +31,6 @@ public class GameController : MonoBehaviour
     }
     public void Stage1 ()
     {
-        SceneManager.LoadScene("HIBIKIscene");
+        SceneManager.LoadScene("GOscene");
     }
 }
