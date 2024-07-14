@@ -8,7 +8,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody2D PlayerRB;
     [SerializeField] SpriteRenderer PlayerRenderer;
 
-    [Header("プレイヤーのステータス")]
+    [Tooltip("取得猫缶数")]
+    float _haveCatFoodValue;
+
+    [Header("プレイヤーの移動ステータス")]
     [SerializeField, Tooltip("並行の移動スピード")]
     float _moveSpeed = 5;
     [Space]
@@ -40,8 +43,8 @@ public class PlayerController : MonoBehaviour
     [Header("体力ステータス")]
     [SerializeField, Tooltip("体力")]
     float _maxHealth;
-    [HideInInspector, Tooltip("現在体力")]
-    public float _currentHealth;
+    [Tooltip("現在体力")]
+    float _currentHealth;
     [SerializeField, Tooltip("無敵時間")]
     float _hitIntarval;
     float _hitIntervalTimer;
@@ -221,4 +224,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void HitDamage(float damage)
+    {
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            Debug.Log("GameOver");
+        }
+    }
+
+    public void GetCatFood()
+    {
+        _haveCatFoodValue++;
+    }
 }

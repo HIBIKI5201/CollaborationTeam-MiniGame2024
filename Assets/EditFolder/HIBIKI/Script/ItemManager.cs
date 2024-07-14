@@ -19,7 +19,7 @@ public class ItemManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerController>()._currentHealth++;
+            collision.GetComponent<PlayerController>().HitDamage(-1);
             Destroy(gameObject);
         }
     }
