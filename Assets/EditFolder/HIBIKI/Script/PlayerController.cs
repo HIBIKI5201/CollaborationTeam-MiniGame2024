@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,8 +8,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody2D PlayerRB;
     [SerializeField] SpriteRenderer PlayerRenderer;
 
-    [Header("プレイヤーのステータス")]
-    [SerializeField,Tooltip("並行の移動スピード")]
+    [Tooltip("取得猫缶数")]
+    float _haveCatFoodValue;
+
+    [Header("プレイヤーの移動ステータス")]
+    [SerializeField, Tooltip("並行の移動スピード")]
     float _moveSpeed = 5;
     [Space]
     [SerializeField, Tooltip("ジャンプ力")]
@@ -29,23 +28,23 @@ public class PlayerController : MonoBehaviour
     float Angle;
 
     [Header("攻撃ステータス")]
-    [SerializeField,Tooltip("攻撃判定のコライダー")]
+    [SerializeField, Tooltip("攻撃判定のコライダー")]
     BoxCollider2D AttackCollider;
-    [SerializeField,Tooltip("近接攻撃力")]
+    [SerializeField, Tooltip("近接攻撃力")]
     float _attackDamage;
     [Space]
-    [SerializeField,Tooltip("肉球弾丸のオブジェクト")]
+    [SerializeField, Tooltip("肉球弾丸のオブジェクト")]
     GameObject Bullet;
-    [SerializeField,Tooltip("弾丸の攻撃力")]
+    [SerializeField, Tooltip("弾丸の攻撃力")]
     float _bulletDamage;
-    [SerializeField,Tooltip("弾丸のスピード")]
+    [SerializeField, Tooltip("弾丸のスピード")]
     float _bulletSpeed;
 
     [Header("体力ステータス")]
-    [SerializeField,Tooltip("体力")]
+    [SerializeField, Tooltip("体力")]
     float _maxHealth;
-    [HideInInspector,Tooltip("現在体力")]
-    public float _currentHealth;
+    [Tooltip("現在体力")]
+    float _currentHealth;
     [SerializeField, Tooltip("無敵時間")]
     float _hitIntarval;
     float _hitIntervalTimer;
@@ -62,7 +61,7 @@ public class PlayerController : MonoBehaviour
     [Space]
     [SerializeField] Sprite NormalSprite;
     [SerializeField] Sprite WallRunSprite;
- 
+
     [Header("他コンポーネント")]
     [SerializeField] Tilemap tilemap;
 
@@ -90,11 +89,11 @@ public class PlayerController : MonoBehaviour
         {
             if (jumpCount > 0)
             {
-            jumpCount = 0;
+                jumpCount = 0;
             }
 
             Vector2 CollisionNormal = collision.contacts[0].normal;
-            
+
 
             Vector3 hitPosition = collision.collider.ClosestPoint(transform.position);
             Vector3Int cellPosition = tilemap.WorldToCell(hitPosition);
@@ -103,7 +102,7 @@ public class PlayerController : MonoBehaviour
 
             if (tile != null)
             {
-                switch(tile.name)
+                switch (tile.name)
                 {
                     case "Wall":
 
@@ -188,7 +187,8 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector2(ScaleX * horizontal, transform.localScale.y);
 
             Angle = horizontal;
-        } else
+        }
+        else
         {
             PlayerRB.velocity = new Vector2(0, PlayerRB.velocity.y);
         }
@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
         {
             PlayerRB.velocity = new Vector2(PlayerRB.velocity.x, 0);
             PlayerRB.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
-        
+
             jumpCount++;
         }
 
@@ -224,4 +224,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void HitDamage(float damage)
+    {
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            Debug.Log("GameOver");
+        }
+    }
+
+    public void GetCatFood()
+    {
+        _haveCatFoodValue++;
+    }
 }
