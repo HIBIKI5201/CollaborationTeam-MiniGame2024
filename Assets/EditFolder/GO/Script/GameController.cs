@@ -19,9 +19,9 @@ public class GameController : MonoBehaviour
 
     public static Dictionary<SceneKind, string> SceneNames = new Dictionary<SceneKind, string>() 
     {
-        {SceneKind.Title, "Title" },
+        {SceneKind.Title, "TitleScene2" },
         {SceneKind.Stage1, "GOscene" },
-        {SceneKind.Result, "Result" }
+        {SceneKind.Result, "ResultScene" }
     };
 
     void Start()
@@ -62,6 +62,13 @@ public class GameController : MonoBehaviour
     {
         SceneManager.LoadScene(SceneNames[SceneKind.Stage1]);
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            SceneManager.LoadScene(SceneNames[SceneKind.Result]);
+        }
+    }
 
     static void SceneChange(SceneKind sceneKind)
     {
@@ -76,5 +83,15 @@ public class GameController : MonoBehaviour
     public void Audio()
     {
         _audio.Play();
+    }
+
+    private void Title()
+    {
+        SceneManager.LoadScene(SceneNames[SceneKind.Title]);
+    }
+
+    public void GetTitle()
+    {
+        Invoke(nameof(Title), 0.5f);
     }
 }

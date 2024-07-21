@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/EditFolder/GO/Scene/TitleScene2.unity
     guid: 680b76147c656e644be5b845486a5a02
+  - enabled: 1
+    path: Assets/EditFolder/GO/Scene/ResultScene.unity
+    guid: 6309145c7ecb877429d9d61add96e5eb
   m_configObjects: {}
