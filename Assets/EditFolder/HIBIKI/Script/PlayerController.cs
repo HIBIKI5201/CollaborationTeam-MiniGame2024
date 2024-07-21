@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -39,6 +40,9 @@ public class PlayerController : MonoBehaviour
     float _bulletDamage;
     [SerializeField, Tooltip("弾丸のスピード")]
     float _bulletSpeed;
+    [SerializeField, Tooltip("発射のインターバル")]
+    float _bulletFireInterval;
+    float _bulletIntervalTimer;
 
     [Header("体力ステータス")]
     [SerializeField, Tooltip("体力")]
@@ -94,46 +98,21 @@ public class PlayerController : MonoBehaviour
 
             Vector2 CollisionNormal = collision.contacts[0].normal;
 
-
-            Vector3 hitPosition = collision.collider.ClosestPoint(transform.position);
-            Vector3Int cellPosition = tilemap.WorldToCell(hitPosition);
-            cellPosition = cellPosition + new Vector3Int((Mathf.Abs(CollisionNormal.x) >= 0.01) ? (int)Mathf.Sign(CollisionNormal.x) * -1 : 0, (Mathf.Abs(CollisionNormal.y) >= 0.01) ? (int)Mathf.Sign(CollisionNormal.y) * -1 : 0, 0);
-            TileBase tile = tilemap.GetTile(cellPosition);
-
-            if (tile != null)
-            {
-                switch (tile.name)
-                {
-                    case "Wall":
-
-                        break;
-
-                    case "Ground":
-
-                        break;
-
-                    default:
-
-                        Debug.Log("設定されていないタイルに接触");
-
-                        break;
-                }
-            }
-            else
-            {
-                Debug.Log($"タイルが見つからない\n座標：{cellPosition}\n法線方向：{CollisionNormal}\n\n{hitPosition}と{new Vector3Int((int)Mathf.Sign(CollisionNormal.x) * -1, (int)Mathf.Sign(CollisionNormal.y) * -1, 0)}");
-            }
-
-            //
             if ((Mathf.Abs(CollisionNormal.x) >= 0.01 ? (int)Mathf.Sign(CollisionNormal.x) * -1 : 0) == Input.GetAxisRaw("Horizontal") && Input.GetAxisRaw("Horizontal") != 0)
             {
-                WallRun();
+                Debug.Log("壁登り");
+                if (PlayerMode.WallRun != playerMode)
+                {
+                    playerMode = PlayerMode.WallRun;
+                    PlayerRenderer.sprite = WallRunSprite;
+                }
+
+                PlayerRB.velocity = new Vector2(0, _wallclimbSpeed);
             }
-            else if (WallRunning)
+            else if (PlayerMode.WallRun == playerMode)
             {
                 Debug.Log("壁登り解除");
 
-                WallRunning = false;
                 playerMode = PlayerMode.Normal;
                 PlayerRenderer.sprite = NormalSprite;
             }
@@ -150,19 +129,6 @@ public class PlayerController : MonoBehaviour
             playerMode = PlayerMode.Normal;
             PlayerRenderer.sprite = NormalSprite;
         }
-    }
-
-    private void WallRun()
-    {
-        Debug.Log("壁登り");
-        if (!WallRunning)
-        {
-            WallRunning = true;
-            playerMode = PlayerMode.WallRun;
-            PlayerRenderer.sprite = WallRunSprite;
-        }
-
-        PlayerRB.velocity = new Vector2(0, _wallclimbSpeed);
     }
 
     private IEnumerator Attack()
@@ -215,13 +181,26 @@ public class PlayerController : MonoBehaviour
         }
 
         //遠距離攻撃
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKey(KeyCode.Return))
         {
-            Debug.Log("遠距離攻撃");
-
-            GameObject bullet = Instantiate(Bullet, transform.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(_bulletSpeed * Angle, 0);
+            if (_bulletFireInterval + _bulletIntervalTimer < Time.time)
+            {
+               StartCoroutine(FireBullet());
+            }
         }
+    }
+
+    IEnumerator FireBullet()
+    {
+        Debug.Log("遠距離攻撃");
+        _bulletIntervalTimer = Time.time;
+
+        GameObject bullet = Instantiate(Bullet, transform.position, Quaternion.identity);
+        bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(_bulletSpeed * Angle, 0);
+
+        yield return new WaitForSeconds(2);
+
+        Destroy(bullet);
     }
 
     public void HitDamage(float damage)
