@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    [SerializeField] GameObject PL;
+    GameObject PL;
     Vector2 _plPos;
     Vector2 _pos;
 
@@ -11,6 +11,7 @@ public class EnemyMove : MonoBehaviour
     float _axis;
     float _cooltime;
     [SerializeField] float _CT = 2;
+    [SerializeField] AudioSource _mouseAudioSource;
 
     Rigidbody2D rb;
     [SerializeField] float _moveSpeed = 4;
@@ -25,6 +26,7 @@ public class EnemyMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        PL=GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -95,6 +97,7 @@ public class EnemyMove : MonoBehaviour
 
             case 2:
                 //プレイヤーのいる方向に突進
+                _mouseAudioSource.Play();
                 float axis = _axis;
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 yield return new WaitForSeconds(1);
