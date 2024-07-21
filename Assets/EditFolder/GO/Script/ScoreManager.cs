@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    public static int _score;
+
+   // [SerializeField] GameObject 
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         
     }
+
 }

@@ -105,4 +105,13 @@ public class EnemyMove : MonoBehaviour
 
     }
 
+    public void HitDamage(float damage)
+    {
+        if (damage > 0)
+        {
+            ScoreManager._score += 100;
+            Destroy(gameObject);
+        }
+    }
+
 }
