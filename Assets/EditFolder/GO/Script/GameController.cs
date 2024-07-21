@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
         Result
     }
 
-    public Dictionary<SceneKind, string> SceneNames = new Dictionary<SceneKind, string>() 
+    public static Dictionary<SceneKind, string> SceneNames = new Dictionary<SceneKind, string>() 
     {
         {SceneKind.Title, "Title" },
         {SceneKind.Stage1, "GOscene" },
@@ -61,6 +61,11 @@ public class GameController : MonoBehaviour
     private void Stage1()
     {
         SceneManager.LoadScene(SceneNames[SceneKind.Stage1]);
+    }
+
+    static void SceneChange(SceneKind sceneKind)
+    {
+        SceneManager.LoadScene(SceneNames[sceneKind]);
     }
 
     public void GetStage1()
