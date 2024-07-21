@@ -2,6 +2,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -45,6 +46,9 @@ public class PlayerController : MonoBehaviour
     float _bulletIntervalTimer;
 
     [Header("体力ステータス")]
+    [SerializeField, Tooltip("体力バー")]
+    Image healthBar;
+
     [SerializeField, Tooltip("体力")]
     float _maxHealth;
     [Tooltip("現在体力")]
@@ -72,6 +76,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _currentHealth = _maxHealth;
+        healthBar.fillAmount = _currentHealth / _maxHealth;
+
         ScaleX = transform.localScale.x;
     }
 
@@ -81,9 +87,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") && _hitIntervalTimer + _hitIntarval < Time.time)
         {
             _hitIntervalTimer = Time.time;
-            _currentHealth--;
-            Debug.Log($"現在体力は{_currentHealth}");
-            Debug.Log($"{_hitIntervalTimer + _hitIntarval}と{Time.time}");
+            HitDamage(1);
         }
     }
 
@@ -205,11 +209,15 @@ public class PlayerController : MonoBehaviour
 
     public void HitDamage(float damage)
     {
+        Debug.Log($"現在体力は{_currentHealth}");
+
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
             Debug.Log("GameOver");
         }
+
+        healthBar.fillAmount = _currentHealth / _maxHealth;
     }
 
     public void GetCatFood()
