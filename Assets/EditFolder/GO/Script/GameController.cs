@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
     {
         {SceneKind.Title, "Title" },
         {SceneKind.Stage1, "GOscene" },
-        {SceneKind.Result, "Result" }
+        {SceneKind.Result, "ResultScene" }
     };
 
     void Start()
@@ -61,6 +61,13 @@ public class GameController : MonoBehaviour
     private void Stage1()
     {
         SceneManager.LoadScene(SceneNames[SceneKind.Stage1]);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            SceneManager.LoadScene(SceneNames[SceneKind.Result]);
+        }
     }
 
     static void SceneChange(SceneKind sceneKind)
