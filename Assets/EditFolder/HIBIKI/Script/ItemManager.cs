@@ -1,9 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
+    [SerializeField]
+    ItemKind kind;
+
+    enum ItemKind
+    {
+        heal,
+    }
+
     void Start()
     {
 
@@ -19,7 +25,12 @@ public class ItemManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerController>().HitDamage(-1);
+            switch (kind)
+            {
+                case ItemKind.heal:
+                    collision.GetComponent<PlayerController>().HitDamage(-1);
+                    break;
+            }
             Destroy(gameObject);
         }
     }

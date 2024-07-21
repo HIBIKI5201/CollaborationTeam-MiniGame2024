@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    [SerializeField] GameObject PL;
+    GameObject PL;
     Vector2 _plPos;
     Vector2 _pos;
 
@@ -11,6 +11,7 @@ public class EnemyMove : MonoBehaviour
     float _axis;
     float _cooltime;
     [SerializeField] float _CT = 2;
+    [SerializeField] AudioSource _mouseAudioSource;
 
     Rigidbody2D rb;
     [SerializeField] float _moveSpeed = 4;
@@ -25,6 +26,7 @@ public class EnemyMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        PL=GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -44,22 +46,19 @@ public class EnemyMove : MonoBehaviour
             if (Vector2.Distance(_pos, _plPos) < 8)
             {
 
-                //ダッシュ中も一定速度でPLに向かうようにしたい
-                //ダッシュ直前に一旦停止
-                //クールタイムが０以下の時２を実行
-                //範囲内に入ったら飛び掛かってくるクールタイム削除飛び掛かる前に一旦停止
-                
-                    StartCoroutine(weit(2));
-               
+
+                StartCoroutine(weit(2));
+
                 //ｘ方向の加速度が設定した速度よりも遅かった場合？
-               //else if (Mathf.Abs(rb.velocity.x) < _moveSpeed)
-               // {
-               //     //速度を直接代入
-               //     rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
-               // }
+                //else if (Mathf.Abs(rb.velocity.x) < _moveSpeed)
+                // {
+                //     //速度を直接代入
+                //     rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
+                // }
             }
-            else
+            else if (Vector2.Distance(_pos, _plPos) < 16f)
             {
+                //Debug.Log(Vector2.Distance(_pos,_plPos));
                 rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
             }
 
@@ -71,9 +70,9 @@ public class EnemyMove : MonoBehaviour
             //weit(1)を実行
             StartCoroutine(weit(1));
         }
-        if (Vector2.Distance(_pos, _plPos) > 15)
+        if (Vector2.Distance(_pos, _plPos) > 14)
         {
-            rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
+            //rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
         }
 
 
@@ -95,6 +94,7 @@ public class EnemyMove : MonoBehaviour
 
             case 2:
                 //プレイヤーのいる方向に突進
+                _mouseAudioSource.Play();
                 float axis = _axis;
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 yield return new WaitForSeconds(1);

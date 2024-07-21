@@ -12,7 +12,17 @@ public class SoundEffectManager : MonoBehaviour
 
     void Start()
     {
-        _AudioSource = GetComponent<AudioSource>();
+        
+
+        if (GameObject.Find("SoundManager").TryGetComponent<AudioSource>(out AudioSource audioSource))
+        {
+            _AudioSource = audioSource;
+        }
+        else
+        {
+            Debug.LogError("SoundManagerオブジェクトを作り、AudioSourceをアタッチしてください");
+        }
+
         _staticAudio = _audioClipList;
     }
 
