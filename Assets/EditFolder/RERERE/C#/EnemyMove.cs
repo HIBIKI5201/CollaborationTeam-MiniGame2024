@@ -11,7 +11,7 @@ public class EnemyMove : MonoBehaviour
     float _axis;
     float _cooltime;
     [SerializeField] float _CT = 2;
-    [SerializeField] AudioSource _mouseAudioSource;
+    AudioSource _mouseAudioSource;
 
     Rigidbody2D rb;
     [SerializeField] float _moveSpeed = 4;
@@ -25,6 +25,7 @@ public class EnemyMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _mouseAudioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         PL=GameObject.FindGameObjectWithTag("Player");
     }

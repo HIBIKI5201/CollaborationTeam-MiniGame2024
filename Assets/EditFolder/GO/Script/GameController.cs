@@ -9,7 +9,21 @@ public class GameController : MonoBehaviour
     [SerializeField] GameObject titleCanvas;
 
     AudioSource _audio;
-    
+
+    public enum SceneKind
+    {
+        Title,
+        Stage1,
+        Result
+    }
+
+    public Dictionary<SceneKind, string> SceneNames = new Dictionary<SceneKind, string>() 
+    {
+        {SceneKind.Title, "Title" },
+        {SceneKind.Stage1, "GOscene" },
+        {SceneKind.Result, "Result" }
+    };
+
     void Start()
     {
         stageCanvas.SetActive(false);
@@ -46,7 +60,7 @@ public class GameController : MonoBehaviour
 
     private void Stage1()
     {
-        SceneManager.LoadScene("GOscene");
+        SceneManager.LoadScene(SceneNames[SceneKind.Stage1]);
     }
 
     public void GetStage1()
