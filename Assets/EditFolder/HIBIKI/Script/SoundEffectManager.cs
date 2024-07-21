@@ -12,7 +12,7 @@ public class SoundEffectManager : MonoBehaviour
 
     void Start()
     {
-        _AudioSource = GetComponent<AudioSource>();
+        _AudioSource = GameObject.Find("SoundManager").GetComponent<AudioSource>();
         _staticAudio = _audioClipList;
     }
 

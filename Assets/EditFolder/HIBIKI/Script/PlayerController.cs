@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -39,6 +40,9 @@ public class PlayerController : MonoBehaviour
     float _bulletDamage;
     [SerializeField, Tooltip("弾丸のスピード")]
     float _bulletSpeed;
+    [SerializeField, Tooltip("発射のインターバル")]
+    float _bulletFireInterval;
+    float _bulletIntervalTimer;
 
     [Header("体力ステータス")]
     [SerializeField, Tooltip("体力")]
@@ -177,13 +181,26 @@ public class PlayerController : MonoBehaviour
         }
 
         //遠距離攻撃
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKey(KeyCode.Return))
         {
-            Debug.Log("遠距離攻撃");
-
-            GameObject bullet = Instantiate(Bullet, transform.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(_bulletSpeed * Angle, 0);
+            if (_bulletFireInterval + _bulletIntervalTimer < Time.time)
+            {
+               StartCoroutine(FireBullet());
+            }
         }
+    }
+
+    IEnumerator FireBullet()
+    {
+        Debug.Log("遠距離攻撃");
+        _bulletIntervalTimer = Time.time;
+
+        GameObject bullet = Instantiate(Bullet, transform.position, Quaternion.identity);
+        bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(_bulletSpeed * Angle, 0);
+
+        yield return new WaitForSeconds(2);
+
+        Destroy(bullet);
     }
 
     public void HitDamage(float damage)
