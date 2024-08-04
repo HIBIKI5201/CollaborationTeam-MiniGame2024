@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StartCanvas : MonoBehaviour
@@ -20,7 +18,7 @@ public class StartCanvas : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && titleCanvas.active)
+        if (Input.GetKeyDown(KeyCode.Return) && titleCanvas)
         {
             _audio.Play();
             GetStageSelectUiActive();

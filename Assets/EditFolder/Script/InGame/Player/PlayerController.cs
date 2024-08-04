@@ -1,18 +1,22 @@
 using System.Collections;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D PlayerRB;
-    SpriteRenderer PlayerRenderer;
     Animator PlayerAnimator;
+
+    [SerializeField, Tooltip("InputSystem")]
+    PlayeInputSystem _inputSystem;
 
     [Tooltip("取得猫缶数")]
     float _haveCatFoodValue;
 
     [Header("プレイヤーの移動ステータス")]
+
     [SerializeField, Tooltip("並行の移動スピード")]
     float _moveSpeed = 5;
     [Space]
@@ -69,8 +73,10 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        _inputSystem = new();
+        _inputSystem.Enable();
+
         PlayerRB = GetComponent<Rigidbody2D>();
-        PlayerRenderer = GetComponent<SpriteRenderer>();
         PlayerAnimator = GetComponent<Animator>();
 
         _currentHealth = _maxHealth;
@@ -165,7 +171,7 @@ public class PlayerController : MonoBehaviour
         _lastHorizontalAxis = horizontal;
 
         //ジャンプ
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < _jumpLimit)
+        if (_inputSystem.Player.Jump.triggered && jumpCount < _jumpLimit)
         {
             PlayerRB.velocity = new Vector2(PlayerRB.velocity.x, 0);
             PlayerRB.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
@@ -199,6 +205,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Attack()
     {
+        PlayerAnimator.SetTrigger("Attack");
         AttackCollider.enabled = true;
         Debug.Log("近接");
 
@@ -209,6 +216,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator FireBullet()
     {
+        PlayerAnimator.SetTrigger("Fire");
         Debug.Log("遠距離攻撃");
         _bulletIntervalTimer = Time.time;
 

@@ -9,7 +9,7 @@ public class EnemyMove : MonoBehaviour
 
     /// <summary> プレイヤーが自分のどちら側にいるか？ </summary>
     float _axis;
-    [SerializeField] float _CT = 2;
+    
     AudioSource _mouseAudioSource;
 
     Rigidbody2D rb;
