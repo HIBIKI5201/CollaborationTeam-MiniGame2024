@@ -95,6 +95,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            PlayerAnimator.SetBool("IsGround", true);
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
         //ínñ Ç…íÖÇ¢ÇΩéûÇÃèàóù
@@ -122,7 +130,6 @@ public class PlayerController : MonoBehaviour
                 PlayerAnimator.SetBool("WallRun", false);
                 playerMode = PlayerMode.Normal;
             }
-            PlayerAnimator.SetBool("IsGround", true);
         }
     }
 
@@ -199,6 +206,8 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(FireBullet());
             }
         }
+
+        PlayerAnimator.SetFloat("SpeedY", PlayerRB.velocity.y);
     }
 
     private IEnumerator Attack()
