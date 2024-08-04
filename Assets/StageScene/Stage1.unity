@@ -4611,8 +4611,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24cba1519fd3eb644a5207e413d15201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRB: {fileID: 1246179900}
-  PlayerRenderer: {fileID: 1246179901}
   _moveSpeed: 5
   _jumpPower: 12
   _jumpLimit: 1
@@ -4627,9 +4625,6 @@ MonoBehaviour:
   _maxHealth: 0
   _hitIntarval: 0
   playerMode: 0
-  NormalSprite: {fileID: 21300000, guid: 289d4ec7707bd144ca2a6632faa78012, type: 3}
-  WallRunSprite: {fileID: 21300000, guid: 289d4ec7707bd144ca2a6632faa78012, type: 3}
-  tilemap: {fileID: 0}
 --- !u!61 &1246179899
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4814,7 +4809,7 @@ Animator:
   m_GameObject: {fileID: 1246179896}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 34bfbdc925b185d4e91653c74a063b16, type: 2}
+  m_Controller: {fileID: 9100000, guid: 12c46667652cc5948a65092fe858f328, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
