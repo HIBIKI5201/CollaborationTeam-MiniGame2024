@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameController : MonoBehaviour
+public class SceneChanger : MonoBehaviour
 {
-    [SerializeField] GameObject stageCanvas;
-    [SerializeField] GameObject titleCanvas;
-
-    AudioSource _audio;
-
     public enum SceneKind
     {
         Title,
@@ -17,51 +12,26 @@ public class GameController : MonoBehaviour
         Result
     }
 
-    public static Dictionary<SceneKind, string> SceneNames = new Dictionary<SceneKind, string>() 
+    public static Dictionary<SceneKind, string> SceneNames = new Dictionary<SceneKind, string>()
     {
         {SceneKind.Title, "TitleScene2" },
         {SceneKind.Stage1, "GOscene" },
         {SceneKind.Result, "ResultScene" }
     };
 
-    void Start()
+    private void Update()
     {
-        stageCanvas.SetActive(false);
-        _audio = GetComponent<AudioSource>();
-    }
-
-    
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return) && stageCanvas.active)
+        if (Input.GetKeyDown(KeyCode.Return) && StartCanvas._isStage == true)
         {
-            _audio.Play();
             GetStage1();
         }
-
-        if (Input.GetKeyDown(KeyCode.Return) && titleCanvas.active)
-        {
-            _audio.Play();
-            GetStageSelectUiActive();
-            Debug.Log("aa");
-        }
-    }
-
-    private void StageSelectUiActive()
-    {
-        stageCanvas.SetActive(true);
-        titleCanvas.SetActive(false);
-    }
-
-    public void GetStageSelectUiActive()
-    {
-        Invoke(nameof(StageSelectUiActive), 0.5f);
     }
 
     private void Stage1()
     {
         SceneManager.LoadScene(SceneNames[SceneKind.Stage1]);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -80,11 +50,6 @@ public class GameController : MonoBehaviour
         Invoke(nameof(Stage1), 0.5f);
     }
 
-    public void Audio()
-    {
-        _audio.Play();
-    }
-
     private void Title()
     {
         SceneManager.LoadScene(SceneNames[SceneKind.Title]);
@@ -95,3 +60,4 @@ public class GameController : MonoBehaviour
         Invoke(nameof(Title), 0.5f);
     }
 }
+
