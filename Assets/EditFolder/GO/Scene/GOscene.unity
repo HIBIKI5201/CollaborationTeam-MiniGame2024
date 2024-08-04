@@ -19288,10 +19288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Library:
-  - m_Name: New Category
-    m_Hash: 0
-    m_CategoryList: []
+  m_Library: []
   m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: b0306abac51bc8146910128496b3209c, type: 3}
 --- !u!1001 &1624030369
 PrefabInstance:
