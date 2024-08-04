@@ -24,6 +24,10 @@ public class SoundEffectManager : MonoBehaviour
         _staticAudio = _audioClipList;
     }
 
+    /// <summary>
+    /// AudioListのサウンドを再生する
+    /// </summary>
+    /// <param name="SoundNumber">AudioListのElementのIndexを参照します</param>
     public static void PlaySE(int SoundNumber)
     {
         _AudioSource.PlayOneShot(_staticAudio[SoundNumber]);

@@ -9,7 +9,6 @@ public class EnemyMove : MonoBehaviour
 
     /// <summary> プレイヤーが自分のどちら側にいるか？ </summary>
     float _axis;
-    float _cooltime;
     [SerializeField] float _CT = 2;
     AudioSource _mouseAudioSource;
 
@@ -31,7 +30,6 @@ public class EnemyMove : MonoBehaviour
         _plPos = PL.transform.position;
         _pos = transform.position;
         _axis = Mathf.Sign(_plPos.x - _pos.x);
-        _cooltime -= Time.deltaTime;
 
         //自分の向いている方向にプレイヤーがいるならば
         if (_axis == transform.localScale.x)
