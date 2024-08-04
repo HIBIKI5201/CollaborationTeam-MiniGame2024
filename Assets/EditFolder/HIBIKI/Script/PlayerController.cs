@@ -1,14 +1,12 @@
 using System.Collections;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("プレイヤーのコンポーネント")]
-    [SerializeField] Rigidbody2D PlayerRB;
-    [SerializeField] SpriteRenderer PlayerRenderer;
+    Rigidbody2D PlayerRB;
+    SpriteRenderer PlayerRenderer;
+    Animator PlayerAnimator;
 
     [Tooltip("取得猫缶数")]
     float _haveCatFoodValue;
@@ -28,6 +26,7 @@ public class PlayerController : MonoBehaviour
     int jumpCount;
     float ScaleX;
     float Angle;
+    float _lastHorizontalAxis;
 
     [Header("攻撃ステータス")]
     [SerializeField, Tooltip("攻撃判定のコライダー")]
@@ -62,19 +61,17 @@ public class PlayerController : MonoBehaviour
     public enum PlayerMode
     {
         Normal,
-        WallRun
+        Walk,
+        WallRun,
     }
-    bool WallRunning;
 
-    [Space]
-    [SerializeField] Sprite NormalSprite;
-    [SerializeField] Sprite WallRunSprite;
-
-    [Header("他コンポーネント")]
-    [SerializeField] Tilemap tilemap;
 
     void Start()
     {
+        PlayerRB = GetComponent<Rigidbody2D>();
+        PlayerRenderer = GetComponent<SpriteRenderer>();
+        PlayerAnimator = GetComponent<Animator>();
+
         _currentHealth = _maxHealth;
         healthBar.fillAmount = _currentHealth / _maxHealth;
 
@@ -83,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-
+        //ダメージを受けた処理
         if (collision.gameObject.CompareTag("Enemy") && _hitIntervalTimer + _hitIntarval < Time.time)
         {
             _hitIntervalTimer = Time.time;
@@ -93,6 +90,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        //地面に着いた時の処理
         if (collision.gameObject.CompareTag("Ground"))
         {
             if (jumpCount > 0)
@@ -108,60 +106,60 @@ public class PlayerController : MonoBehaviour
                 if (PlayerMode.WallRun != playerMode)
                 {
                     playerMode = PlayerMode.WallRun;
-                    PlayerRenderer.sprite = WallRunSprite;
                 }
-
+                PlayerAnimator.SetBool("WallRun", true);
                 PlayerRB.velocity = new Vector2(0, _wallclimbSpeed);
             }
             else if (PlayerMode.WallRun == playerMode)
             {
                 Debug.Log("壁登り解除");
-
+                PlayerAnimator.SetBool("WallRun", false);
                 playerMode = PlayerMode.Normal;
-                PlayerRenderer.sprite = NormalSprite;
             }
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") && WallRunning)
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            Debug.Log("壁登り解除");
-
-            WallRunning = false;
-            playerMode = PlayerMode.Normal;
-            PlayerRenderer.sprite = NormalSprite;
+            if (playerMode == PlayerMode.WallRun)
+            {
+                Debug.Log("壁登り解除");
+                PlayerAnimator.SetBool("WallRun", false);
+                playerMode = PlayerMode.Normal;
+            }
         }
     }
-
-    private IEnumerator Attack()
-    {
-        AttackCollider.enabled = true;
-
-        Debug.Log("近接");
-
-        yield return new WaitForSeconds(0.2f);
-
-        AttackCollider.enabled = false;
-    }
-
 
     void Update()
     {
         //左右移動
         float horizontal = Input.GetAxisRaw("Horizontal");
+
+        Angle = horizontal;
+        if (horizontal != _lastHorizontalAxis)
+        {
+            if (horizontal != 0)
+            {
+                PlayerAnimator.SetBool("Walk", true);
+            }
+            else
+            {
+                PlayerAnimator.SetBool("Walk", false);
+            }
+        }
+
         if (horizontal != 0)
         {
             PlayerRB.velocity = new Vector2(_moveSpeed * horizontal, PlayerRB.velocity.y);
             transform.localScale = new Vector2(ScaleX * horizontal, transform.localScale.y);
-
-            Angle = horizontal;
         }
         else
         {
             PlayerRB.velocity = new Vector2(0, PlayerRB.velocity.y);
         }
+        _lastHorizontalAxis = horizontal;
 
         //ジャンプ
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < _jumpLimit)
@@ -189,9 +187,20 @@ public class PlayerController : MonoBehaviour
         {
             if (_bulletFireInterval + _bulletIntervalTimer < Time.time)
             {
-               StartCoroutine(FireBullet());
+                StartCoroutine(FireBullet());
             }
         }
+    }
+
+    private IEnumerator Attack()
+    {
+        AttackCollider.enabled = true;
+
+        Debug.Log("近接");
+
+        yield return new WaitForSeconds(0.2f);
+
+        AttackCollider.enabled = false;
     }
 
     IEnumerator FireBullet()

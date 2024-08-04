@@ -12,8 +12,6 @@ public class SoundEffectManager : MonoBehaviour
 
     void Start()
     {
-        
-
         if (GameObject.Find("SoundManager").TryGetComponent<AudioSource>(out AudioSource audioSource))
         {
             _AudioSource = audioSource;
