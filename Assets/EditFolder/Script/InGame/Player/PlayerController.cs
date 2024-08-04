@@ -188,13 +188,13 @@ public class PlayerController : MonoBehaviour
         }
 
         //‹ßÚUŒ‚
-        if (Input.GetKeyDown(KeyCode.RightShift))
+        if (_inputSystem.Player.Attack.triggered)
         {
             StartCoroutine(Attack());
         }
 
         //‰“‹——£UŒ‚
-        if (Input.GetKey(KeyCode.Return))
+        if (_inputSystem.Player.Fire.triggered)
         {
             if (_bulletFireInterval + _bulletIntervalTimer < Time.time)
             {
