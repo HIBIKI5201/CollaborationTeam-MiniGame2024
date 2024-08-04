@@ -1229,8 +1229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b032efc056638ec41ab167e24cd21c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageCanvas: {fileID: 0}
-  titleCanvas: {fileID: 0}
 --- !u!61 &436028301
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -19052,6 +19050,8 @@ GameObject:
   - component: {fileID: 1611647969}
   - component: {fileID: 1611647975}
   - component: {fileID: 1611647976}
+  - component: {fileID: 1611647978}
+  - component: {fileID: 1611647977}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -19071,8 +19071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24cba1519fd3eb644a5207e413d15201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRB: {fileID: 1611647973}
-  PlayerRenderer: {fileID: 1611647970}
   _moveSpeed: 5
   _jumpPower: 12
   _jumpLimit: 1
@@ -19087,9 +19085,6 @@ MonoBehaviour:
   _maxHealth: 10
   _hitIntarval: 1
   playerMode: 0
-  NormalSprite: {fileID: 21300000, guid: 289d4ec7707bd144ca2a6632faa78012, type: 3}
-  WallRunSprite: {fileID: 21300000, guid: 289d4ec7707bd144ca2a6632faa78012, type: 3}
-  tilemap: {fileID: 1482881304}
 --- !u!212 &1611647970
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -19131,7 +19126,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300000, guid: 289d4ec7707bd144ca2a6632faa78012, type: 3}
+  m_Sprite: {fileID: 13139201, guid: c2ee9ac6035118d479ba89be9f4f512c, type: 3}
   m_Color: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -19221,7 +19216,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 32, y: 18}
+    oldSize: {x: 6.2916665, y: 9.502015}
     newSize: {x: 0.6666667, y: 1.333333}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -19254,7 +19249,7 @@ Animator:
   m_GameObject: {fileID: 1611647968}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 34bfbdc925b185d4e91653c74a063b16, type: 2}
+  m_Controller: {fileID: 9100000, guid: 12c46667652cc5948a65092fe858f328, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -19265,6 +19260,36 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1611647977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611647968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 8.587878e-20
+  m_labelHash: 0.018557543
+  m_SpriteKey: 0
+  m_SpriteHash: 559163787
+--- !u!114 &1611647978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611647968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: b0306abac51bc8146910128496b3209c, type: 3}
 --- !u!1001 &1624030369
 PrefabInstance:
   m_ObjectHideFlags: 0
