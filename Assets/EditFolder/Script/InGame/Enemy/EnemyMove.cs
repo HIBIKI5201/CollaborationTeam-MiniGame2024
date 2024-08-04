@@ -18,25 +18,19 @@ public class EnemyMove : MonoBehaviour
 
     //常にプレイヤーを追いかける
     //一定範囲内に入ったら
-    //
-    //
-    //
-
-    // Start is called before the first frame update
     void Start()
     {
         _mouseAudioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
-        PL=GameObject.FindGameObjectWithTag("Player");
+        PL = FindAnyObjectByType<PlayerController>().gameObject;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         _plPos = PL.transform.position;
         _pos = transform.position;
         _axis = Mathf.Sign(_plPos.x - _pos.x);
-        //Debug.Log(rb.velocity.x);
         _cooltime -= Time.deltaTime;
 
         //自分の向いている方向にプレイヤーがいるならば
@@ -49,21 +43,11 @@ public class EnemyMove : MonoBehaviour
 
 
                 StartCoroutine(weit(2));
-
-                //ｘ方向の加速度が設定した速度よりも遅かった場合？
-                //else if (Mathf.Abs(rb.velocity.x) < _moveSpeed)
-                // {
-                //     //速度を直接代入
-                //     rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
-                // }
             }
             else if (Vector2.Distance(_pos, _plPos) < 16f)
             {
-                //Debug.Log(Vector2.Distance(_pos,_plPos));
                 rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
             }
-
-            
         }
         //向いている方向にプレイヤーがいない場合かつ速度が一定以下の場合
         else if (Mathf.Abs(rb.velocity.x) < _moveSpeed)
@@ -71,20 +55,10 @@ public class EnemyMove : MonoBehaviour
             //weit(1)を実行
             StartCoroutine(weit(1));
         }
-        if (Vector2.Distance(_pos, _plPos) > 14)
-        {
-            //rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
-        }
-
-
     }
+
     IEnumerator weit(int num)
     {
-        
-        //X軸の速度を０にする。
-        //rb.velocity = new Vector2(0, rb.velocity.y);
-        
-
         switch (num)
         {
             case 1:

@@ -40,6 +40,10 @@ public class SceneChanger : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// シーンを変えるメソッド
+    /// </summary>
+    /// <param name="sceneKind">SceneChanger.SceneKindのEnum</param>
     static void SceneChange(SceneKind sceneKind)
     {
         SceneManager.LoadScene(SceneNames[sceneKind]);

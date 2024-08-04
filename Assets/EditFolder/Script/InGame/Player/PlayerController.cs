@@ -1,4 +1,5 @@
 using System.Collections;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -73,7 +74,8 @@ public class PlayerController : MonoBehaviour
         PlayerAnimator = GetComponent<Animator>();
 
         _currentHealth = _maxHealth;
-        healthBar.fillAmount = _currentHealth / _maxHealth;
+        if (healthBar != null)
+            healthBar.fillAmount = _currentHealth / _maxHealth;
 
         ScaleX = transform.localScale.x;
     }
@@ -99,7 +101,6 @@ public class PlayerController : MonoBehaviour
             }
 
             Vector2 CollisionNormal = collision.contacts[0].normal;
-
             if ((Mathf.Abs(CollisionNormal.x) >= 0.01 ? (int)Mathf.Sign(CollisionNormal.x) * -1 : 0) == Input.GetAxisRaw("Horizontal") && Input.GetAxisRaw("Horizontal") != 0)
             {
                 Debug.Log("ï«ìoÇË");
@@ -116,6 +117,7 @@ public class PlayerController : MonoBehaviour
                 PlayerAnimator.SetBool("WallRun", false);
                 playerMode = PlayerMode.Normal;
             }
+            PlayerAnimator.SetBool("IsGround", true);
         }
     }
 
@@ -123,6 +125,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+            PlayerAnimator.SetBool("IsGround", false);
             if (playerMode == PlayerMode.WallRun)
             {
                 Debug.Log("ï«ìoÇËâèú");
@@ -167,6 +170,8 @@ public class PlayerController : MonoBehaviour
             PlayerRB.velocity = new Vector2(PlayerRB.velocity.x, 0);
             PlayerRB.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
 
+            PlayerAnimator.SetTrigger("Jump");
+
             jumpCount++;
         }
 
@@ -195,7 +200,6 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Attack()
     {
         AttackCollider.enabled = true;
-
         Debug.Log("ãﬂê⁄");
 
         yield return new WaitForSeconds(0.2f);
@@ -219,13 +223,11 @@ public class PlayerController : MonoBehaviour
     public void HitDamage(float damage)
     {
         Debug.Log($"åªç›ëÃóÕÇÕ{_currentHealth}");
-
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
             Debug.Log("GameOver");
         }
-
         healthBar.fillAmount = _currentHealth / _maxHealth;
     }
 
