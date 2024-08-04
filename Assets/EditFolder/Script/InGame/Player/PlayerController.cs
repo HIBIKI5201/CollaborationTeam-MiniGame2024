@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
 
     int jumpCount;
     float ScaleX;
-    float Angle;
     float _lastHorizontalAxis;
 
     [Header("攻撃ステータス")]
@@ -146,7 +145,6 @@ public class PlayerController : MonoBehaviour
         //左右移動
         float horizontal = Input.GetAxisRaw("Horizontal");
 
-        Angle = horizontal;
         if (horizontal != _lastHorizontalAxis)
         {
             if (horizontal != 0)
@@ -221,7 +219,7 @@ public class PlayerController : MonoBehaviour
         _bulletIntervalTimer = Time.time;
 
         GameObject bullet = Instantiate(Bullet, transform.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(_bulletSpeed * Angle, 0);
+        bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(_bulletSpeed * Mathf.Sign(transform.localScale.x), 0);
 
         yield return new WaitForSeconds(2);
 
