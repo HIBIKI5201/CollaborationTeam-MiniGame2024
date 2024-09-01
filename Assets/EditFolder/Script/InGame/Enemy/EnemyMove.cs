@@ -83,7 +83,7 @@ public class EnemyMove : MonoBehaviour
     {
         if (damage > 0)
         {
-            ScoreManager._score += 100;
+            ScoreManager.AddScore(100);
             Destroy(gameObject);
         }
     }
