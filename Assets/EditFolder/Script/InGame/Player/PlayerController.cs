@@ -99,8 +99,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y >= 0)
         {
+            soundEffectManager.PlaySE(1);
             PlayerAnimator.SetBool("IsGround", true);
         }
     }
@@ -210,6 +211,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Attack()
     {
+        soundEffectManager.PlaySE(2);
         PlayerAnimator.SetTrigger("Attack");
         AttackCollider.enabled = true;
         Debug.Log("‹ßÚ");
@@ -222,6 +224,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator FireBullet()
     {
         PlayerAnimator.SetTrigger("Fire");
+        soundEffectManager.PlaySE(3);
         Debug.Log("‰“‹——£UŒ‚");
         _bulletIntervalTimer = Time.time;
 

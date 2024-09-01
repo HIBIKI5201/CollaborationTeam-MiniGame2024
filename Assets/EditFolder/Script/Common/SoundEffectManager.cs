@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(AudioSource))]
 public class SoundEffectManager : MonoBehaviour
 {
     AudioSource _AudioSource;
@@ -19,9 +19,13 @@ public class SoundEffectManager : MonoBehaviour
     /// <param name="SoundNumber">AudioListのElementのIndexを参照します</param>
     public void PlaySE(int SoundNumber)
     {
-        if (_AudioSource != null && _audioClipList[SoundNumber] != null)
+        if (_AudioSource != null)
         {
-            _AudioSource.PlayOneShot(_audioClipList[SoundNumber]);
+            if (_audioClipList[SoundNumber] != null)
+            {
+                _AudioSource.PlayOneShot(_audioClipList[SoundNumber]);
+            }
         }
+        else Debug.LogWarning("SoundEffectManagerにAudioSourceがアタッチされていません");
     }
 }

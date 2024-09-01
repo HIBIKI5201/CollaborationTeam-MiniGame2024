@@ -11,7 +11,8 @@ public class GOOL : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene(SceneNames[SceneKind.Result]);
+            ScoreManager.StopTimer();
+            SceneChanger.SceneChange(SceneKind.Result);
         }
     }
 }
