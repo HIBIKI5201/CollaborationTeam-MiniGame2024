@@ -19,6 +19,9 @@ public class SoundEffectManager : MonoBehaviour
     /// <param name="SoundNumber">AudioList‚ÌElement‚ÌIndex‚ğQÆ‚µ‚Ü‚·</param>
     public void PlaySE(int SoundNumber)
     {
-        _AudioSource.PlayOneShot(_audioClipList[SoundNumber]);
+        if (_AudioSource != null && _audioClipList[SoundNumber] != null)
+        {
+            _AudioSource.PlayOneShot(_audioClipList[SoundNumber]);
+        }
     }
 }
