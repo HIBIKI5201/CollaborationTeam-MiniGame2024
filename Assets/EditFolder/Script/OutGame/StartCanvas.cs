@@ -37,4 +37,9 @@ public class StartCanvas : MonoBehaviour
     {
         Invoke(nameof(StageSelectUiActive), 0.5f);
     }
+
+    public void ButtonClicked()
+    {
+        SceneChanger.SceneChange(SceneChanger.SceneKind.Stage1);
+    }
 }
