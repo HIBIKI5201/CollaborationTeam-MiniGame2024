@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class SoundEffectManager : MonoBehaviour
 {
+    [SerializeField]
     AudioSource _AudioSource;
 
     [SerializeField]

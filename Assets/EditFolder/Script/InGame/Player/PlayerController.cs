@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
         PlayerRB = GetComponent<Rigidbody2D>();
         PlayerAnimator = GetComponent<Animator>();
-        soundEffectManager = FindAnyObjectByType<SoundEffectManager>();
+        soundEffectManager = GetComponent<SoundEffectManager>();
         if (soundEffectManager == null) Debug.LogWarning("SoundEffectManager‚ª‚ ‚è‚Ü‚¹‚ñ");
         _currentHealth = _maxHealth;
         if (healthBar != null)
