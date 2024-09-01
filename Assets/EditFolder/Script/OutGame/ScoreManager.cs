@@ -5,12 +5,20 @@ public class ScoreManager : MonoBehaviour
     static int _score;
     public static int Score { get { return  _score; } }
 
+    static int _bell;
+    public static int BellValue { get { return _bell; } }
+
     static float _startTime;
 
     public static ScoreTime ResultTime;
     public static void AddScore(int score)
     {
         _score += score;
+    }
+
+    public static void AddBell()
+    {
+        _bell++;
     }
 
     private void Start()
