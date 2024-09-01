@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 2137304289302601222}
   - component: {fileID: 7426172805909441062}
   - component: {fileID: 2076106124029402868}
+  - component: {fileID: 8877856710277928364}
   m_Layer: 0
-  m_Name: Coin
+  m_Name: Bell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,3 +121,15 @@ CircleCollider2D:
   m_Offset: {x: 0.63, y: 0.46}
   serializedVersion: 2
   m_Radius: 1.27
+--- !u!114 &8877856710277928364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743744890220053286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c2df04f6261c64d97e4ae25518103a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
