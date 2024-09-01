@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         //’n–Ê‚É’…‚¢‚½‚Ìˆ—
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y >= 0)
         {
             if (jumpCount > 0)
             {
@@ -188,12 +188,6 @@ public class PlayerController : MonoBehaviour
             jumpCount++;
 
             soundEffectManager.PlaySE(0);
-        }
-
-        //•š‚¹
-        if (Input.GetKeyDown(KeyCode.S) && jumpCount == 0)
-        {
-            Debug.Log("•š‚¹");
         }
 
         //‹ßÚUŒ‚
