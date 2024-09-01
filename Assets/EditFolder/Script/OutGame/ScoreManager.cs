@@ -24,6 +24,7 @@ public class ScoreManager : MonoBehaviour
     private void Start()
     {
         _score = 0;
+        _bell = 0;
         _startTime = Time.time;
     }
 
