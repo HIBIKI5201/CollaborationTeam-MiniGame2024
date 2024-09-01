@@ -207,20 +207,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 296606894}
-        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: GetTitle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 296606894}
-        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: Audio
+        m_TargetAssemblyTypeName: ResultController, Assembly-CSharp
+        m_MethodName: ButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -379,11 +367,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 296606893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b032efc056638ec41ab167e24cd21c9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a194862eeca4e94c8999ff185e3458e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageCanvas: {fileID: 1124683573}
-  titleCanvas: {fileID: 1182794440}
+  _scoreText: {fileID: 1833994925}
+  _timeText: {fileID: 1704713351}
 --- !u!4 &296606895
 Transform:
   m_ObjectHideFlags: 0
