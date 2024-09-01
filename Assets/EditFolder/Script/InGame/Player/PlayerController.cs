@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D PlayerRB;
     Animator PlayerAnimator;
+    SoundEffectManager soundEffectManager;
 
     [SerializeField, Tooltip("InputSystem")]
     PlayeInputSystem _inputSystem;
@@ -77,7 +78,8 @@ public class PlayerController : MonoBehaviour
 
         PlayerRB = GetComponent<Rigidbody2D>();
         PlayerAnimator = GetComponent<Animator>();
-
+        soundEffectManager = FindAnyObjectByType<SoundEffectManager>();
+        if (soundEffectManager == null) Debug.LogWarning("SoundEffectManager‚ª‚ ‚è‚Ü‚¹‚ñ");
         _currentHealth = _maxHealth;
         if (healthBar != null)
             healthBar.fillAmount = _currentHealth / _maxHealth;
@@ -184,6 +186,8 @@ public class PlayerController : MonoBehaviour
             PlayerAnimator.SetTrigger("Jump");
 
             jumpCount++;
+
+            soundEffectManager.PlaySE(0);
         }
 
         //•š‚¹
