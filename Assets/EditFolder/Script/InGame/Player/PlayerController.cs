@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
     [Header("攻撃ステータス")]
     [SerializeField, Tooltip("攻撃判定のコライダー")]
     BoxCollider2D AttackCollider;
+    [SerializeField, Tooltip("斬撃レンダラー")] 
+    SpriteRenderer _spriteRenderer;
     [SerializeField, Tooltip("近接攻撃力")]
     float _attackDamage;
     [Space]
@@ -214,11 +216,13 @@ public class PlayerController : MonoBehaviour
         soundEffectManager.PlaySE(2);
         PlayerAnimator.SetTrigger("Attack");
         AttackCollider.enabled = true;
+        _spriteRenderer.enabled = true;
         Debug.Log("近接");
 
         yield return new WaitForSeconds(0.2f);
 
         AttackCollider.enabled = false;
+        _spriteRenderer.enabled = false;
     }
 
     IEnumerator FireBullet()
