@@ -1,33 +1,59 @@
+using System.Collections;
 using UnityEngine;
 
 public class karasuMove : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] float _moveSpeed;
-    [SerializeField] GameObject PL;
+    [SerializeField] float _attackRange;
+    [SerializeField] float _underLine;
+    GameObject PL;
     Rigidbody2D rb;
-    Vector2 _plPos;
-    Vector2 _pos;
     float _axis;
+    bool _isAttack = false;
+
+    float _firstAltitude = 0;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        _plPos = PL.transform.position;
-        _pos = transform.position;
+        PL = FindAnyObjectByType<PlayerController>().gameObject;
+        _firstAltitude = transform.position.y;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // rb.velocity = Vector2.right;
-        _axis = Mathf.Sign(_plPos.x - _pos.x);
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
+        _axis = Mathf.Sign(PL.transform.position.x -  transform.position.x);
+        if (Vector2.Distance(PL.transform.position, transform.position) < _attackRange && !_isAttack && transform.position.y >= _firstAltitude)
         {
-            rb.velocity = new Vector2(_axis * _moveSpeed, rb.velocity.y);
-            Debug.Log("test1");
+            Vector2 axis = (PL.transform.position - transform.position).normalized;
+            rb.velocity = axis * _moveSpeed;
+            _isAttack = true;
+        }
+        else if (transform.transform.position.y < _underLine )
+        {
+            _isAttack = false;
+        }
+        if (!_isAttack )
+        {
+            if (transform.position.y <= _firstAltitude)
+            {
+                rb.velocity = new Vector2(Mathf.Sign(transform.localScale.x), 1).normalized * _moveSpeed;
+
+            }
+            else
+            {
+                rb.velocity = new Vector2(_axis, 0).normalized * _moveSpeed;
+            }
+        }        
+    }
+
+    public void HitDamage(float damage)
+    {
+        if (damage > 0)
+        {
+            ScoreManager._score += 100;
+            Destroy(gameObject);
         }
     }
 }
